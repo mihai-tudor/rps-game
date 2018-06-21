@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
-    "start": "cd backend && yarn start"
+    "start": "yarn && cd backend && yarn && yarn start"
   },
   "repository": {
     "type": "git",
@@ -21,10 +21,12 @@
     "url": "https://github.com/mihai-tudor/rpc-game/issues"
   },
   "homepage": "https://github.com/mihai-tudor/rpc-game#readme",
-  "devDependencies": {
+  "dependencies": {
     "babel-eslint": "^8.2.3",
     "babel-preset-es2015": "^6.24.1",
-    "babel-register": "^6.26.0",
+    "babel-register": "^6.26.0"
+  },
+  "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-html": "^4.0.5",
