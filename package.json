@@ -4,8 +4,8 @@
   "description": "the classic rock paper scissors game",
   "main": "index.js",
   "scripts": {
-    "pretest": "yarn lint",
-    "lint": "eslint --ignore-path .gitignore ."
+    "lint": "eslint --ignore-path .gitignore .",
+    "start": "cd backend && yarn start"
   },
   "repository": {
     "type": "git",

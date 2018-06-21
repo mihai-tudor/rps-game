@@ -5,6 +5,8 @@ import Cors from '@koa/cors';
 import BodyParser from 'koa-bodyparser';
 import Helmet from 'koa-helmet';
 import respond from 'koa-respond';
+import mongoose from 'mongoose';
+import rpsRoutes from '../routes/index';
 
 const app = new Koa();
 const router = new Router();
@@ -31,8 +33,10 @@ app.use(BodyParser({
 app.use(respond());
 
 // API routes
-require('./routes')(router);
+rpsRoutes(router);
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-module.exports = app;
+mongoose.connect(process.env.DB_URL);
+
+export default app;
