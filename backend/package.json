@@ -11,8 +11,8 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index",
-    "start": "cross-env NODE_ENVIRONMENT=production node index"
+    "dev": "cross-env NODE_ENV=development nodemon index",
+    "start": "cross-env NODE_ENV=production node index"
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",
