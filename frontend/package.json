@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "App for the rock paper scissors game.",
   "author": "Mihai Curteanu",
+  "license": "ISC",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
