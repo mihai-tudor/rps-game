@@ -37,6 +37,6 @@ rpsRoutes(router);
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-mongoose.connect(process.env.DB_URL);
+mongoose.connect(process.env.MONGODB_URI);
 
 export default app;
