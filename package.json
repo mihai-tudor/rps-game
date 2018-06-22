@@ -2,7 +2,8 @@
   "name": "rps-game",
   "version": "1.0.0",
   "description": "the classic rock paper scissors game",
-  "main": "/build",
+  "main": "index.js",
+  "homepage": "/build",
   "scripts": {
     "start": "yarn && yarn build && NODE_ENV=production node index",
     "start:dev": "cross-env NODE_ENV=development nodemon index",
@@ -24,7 +25,6 @@
   "bugs": {
     "url": "https://github.com/mihai-tudor/rpc-game/issues"
   },
-  "homepage": "https://github.com/mihai-tudor/rpc-game#readme",
   "dependencies": {
     "@koa/cors": "^2.2.1",
     "dotenv": "^5.0.1",
