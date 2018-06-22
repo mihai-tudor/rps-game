@@ -8,8 +8,8 @@
     "build": "cd frontend && yarn && yarn build && cd ..",
     "start": "yarn start:api && yarn build",
     "start:dev": "yarn && concurrently --kill-others \"yarn start:api\" \"yarn start:app\"",
-    "start:api": "cd backend && yarn && yarn start",
-    "start:app": "cd frontend && yarn && yarn start && cd .."
+    "start:api": "cd backend && yarn && yarn start && cd ..",
+    "start:app": "cd frontend && yarn && yarn start"
   },
   "repository": {
     "type": "git",
