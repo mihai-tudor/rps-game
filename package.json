@@ -6,10 +6,10 @@
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "build": "cd frontend && yarn && yarn build && cd ..",
-    "start": "yarn build && yarn start:api",
+    "start": "yarn start:api && yarn build",
     "start:dev": "yarn && concurrently --kill-others \"yarn start:api\" \"yarn start:app\"",
     "start:api": "cd backend && yarn && yarn start",
-    "start:app": "cd frontend && yarn && yarn start"
+    "start:app": "cd frontend && yarn && yarn start && cd .."
   },
   "repository": {
     "type": "git",
