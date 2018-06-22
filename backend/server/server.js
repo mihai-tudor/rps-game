@@ -6,7 +6,8 @@ import BodyParser from 'koa-bodyparser';
 import Helmet from 'koa-helmet';
 import respond from 'koa-respond';
 import mongoose from 'mongoose';
-import rpsRoutes from '../routes/index';
+import rpsRoutes from '../routes';
+import koaStatic from 'koa-static';
 
 const app = new Koa();
 const router = new Router();
@@ -36,6 +37,7 @@ app.use(respond());
 rpsRoutes(router);
 app.use(router.routes());
 app.use(router.allowedMethods());
+app.use(koaStatic('./build'));
 
 mongoose.connect(process.env.MONGODB_URI);
 

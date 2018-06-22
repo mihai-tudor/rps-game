@@ -3,6 +3,27 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      data: '',
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    this.loadCommentsFromServer();
+  }
+
+  loadCommentsFromServer = () => {
+    fetch('v1/rps-games')
+      .then(data => data.json())
+      .then((res) => {
+        console.log('res: ', res);
+        this.setState({ data: res });
+      });
+  };
+
   render() {
     return (
       <div className="App">
@@ -12,6 +33,8 @@ class App extends Component {
         </header>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
+          {JSON.stringify(this.state.data)}
+          {JSON.stringify(this.state.error)}
         </p>
       </div>
     );
