@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "the classic rock paper scissors game",
   "main": "index.js",
-  "homepage": "/build",
+  "homepage": "/",
   "scripts": {
     "start": "yarn && yarn build && NODE_ENV=production node index",
     "start:dev": "cross-env NODE_ENV=development nodemon index",
