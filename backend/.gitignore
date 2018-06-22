@@ -135,6 +135,7 @@ fabric.properties
 ### CanChain Extras ###
 docs
 
+/build
 .ebignore
 /keyrings/live/pubring.gpg~
 /keyrings/live/pubring.kbx~

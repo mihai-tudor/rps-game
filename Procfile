@@ -1,2 +1,3 @@
 worker: yarn
-web: yarn start:api
+worker: yarn build
+web: yarn start
