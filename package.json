@@ -4,12 +4,12 @@
   "description": "the classic rock paper scissors game",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ignore-path .gitignore .",
-    "build": "cd frontend && yarn && yarn build && cd ..",
-    "start": "yarn start:api && yarn build",
-    "start:dev": "yarn && concurrently --kill-others \"yarn start:api\" \"yarn start:app\"",
-    "start:api": "cd backend && yarn && yarn start && cd ..",
-    "start:app": "cd frontend && yarn && yarn start"
+    "start": "yarn && yarn build && NODE_ENV=production node index",
+    "start:dev": "cross-env NODE_ENV=development nodemon index",
+    "start:app": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",
@@ -26,12 +26,24 @@
   },
   "homepage": "https://github.com/mihai-tudor/rpc-game#readme",
   "dependencies": {
+    "@koa/cors": "^2.2.1",
+    "dotenv": "^5.0.1",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-helmet": "^4.0.0",
+    "koa-logger": "^3.2.0",
+    "koa-respond": "^1.0.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "mongoose": "^5.1.6"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.4",
+    "nodemon": "^1.17.3",
     "babel-eslint": "^8.2.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
-    "concurrently": "^3.6.0"
-  },
-  "devDependencies": {
+    "concurrently": "^3.6.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-standard": "^11.0.0",
@@ -41,6 +53,10 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.9.1",
-    "eslint-plugin-standard": "^3.1.0"
-  }
+    "eslint-plugin-standard": "^3.1.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4"
+  },
+  "proxy": "http://localhost:4000"
 }

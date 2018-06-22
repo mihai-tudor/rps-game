@@ -6,8 +6,8 @@ import BodyParser from 'koa-bodyparser';
 import Helmet from 'koa-helmet';
 import respond from 'koa-respond';
 import mongoose from 'mongoose';
-import rpsRoutes from '../routes';
 import koaStatic from 'koa-static';
+import rpsRoutes from './routes/index';
 
 const app = new Koa();
 const router = new Router();
@@ -23,12 +23,12 @@ app.use(BodyParser({
   enableTypes: ['json'],
   jsonLimit: '5mb',
   strict: true,
-  onerror: function (err, ctx) {
+  onerror(err, ctx) {
     if (err) {
       console.log(err.stack);
     }
     ctx.throw('body parse error', 422)
-  }
+  },
 }));
 
 app.use(respond());
