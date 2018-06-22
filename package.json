@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
-    "build": "cd frontend && yarn && yarn build",
+    "build": "cd frontend && yarn && yarn build && cd ..",
     "start": "yarm && yarn build && yarn start:api",
     "start:dev": "yarn && concurrently --kill-others \"yarn start:api\" \"yarn start:app\"",
     "start:api": "cd backend && yarn && yarn start",
