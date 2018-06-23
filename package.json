@@ -58,7 +58,9 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.9.1",
     "eslint-plugin-standard": "^3.1.0",
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.3",
+    "prop-types": "^15.6.2",
+    "react-redux": "^5.0.7"
   },
   "proxy": "http://localhost:4000"
 }
