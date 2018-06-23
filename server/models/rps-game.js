@@ -8,9 +8,9 @@ const RpsGameSchema = new mongoose.Schema(
     p1: [Number],
     p2: [Number],
     ended: { type: Boolean },
-    seen: { type: Boolean }
+    seen: { type: Boolean },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Declare Model to mongoose with Schema

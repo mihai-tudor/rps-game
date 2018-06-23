@@ -8,14 +8,12 @@ export const findAll = async (ctx) => {
 export const create = async (ctx) => {
   // Create New Game from payload sent and save to database
   const newGame = new RpsGame(ctx.request.body);
-  console.log('ctx.request: ', ctx.request);
-  console.log('ctx.request.body: ', ctx.request.body);
   ctx.body = await newGame.save();
 };
 
 export const destroy = async (ctx) => {
   // Get id from url parameters and find game in database
-  const id = ctx.params.id;
+  const { id } = ctx.params;
   const game = await RpsGame.findById(id);
 
   // Delete game from database and return deleted object as reference
@@ -24,7 +22,7 @@ export const destroy = async (ctx) => {
 
 export const update = async (ctx) => {
   // Find game based on id, then toggle seen on/off
-  const id = ctx.params.id;
+  const { id } = ctx.params;
   const game = await RpsGame.findById(id);
   game.seen = !game.seen;
 
