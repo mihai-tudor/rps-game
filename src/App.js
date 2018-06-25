@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import Games from './Games';
-import Header from './Header';
+import Games from './components/Games';
+import Header from './components/Header';
 
 const App = () => (
   <div className="App">

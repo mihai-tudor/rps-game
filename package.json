@@ -41,8 +41,9 @@
     "mongoose": "^5.1.6",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0"
   },

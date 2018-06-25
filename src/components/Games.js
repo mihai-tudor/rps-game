@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchGames } from './actions/games';
+import { Link } from 'react-router-dom';
+import { fetchGames } from '../actions/games';
 
 const Game = ({
-  id, name, player1, player2,
+  id, name, player1, player2
 }) => (
   <div>
     <div>Game id: {id}</div>
-    <div>Game name: {name}</div>
+    <div>Game name: <Link to={{ pathname: `/game/${id}` }}>{name}</Link></div>
     <div>Player 1: {player1}</div>
     <div>Player 2: {player2}</div>
   </div>
@@ -63,5 +64,4 @@ const mapDispatchToProps = {
   fetchGames,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Games)
-
+export default connect(mapStateToProps, mapDispatchToProps)(Games);

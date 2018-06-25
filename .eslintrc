@@ -27,6 +27,7 @@
     "jsx-a11y/anchor-is-valid": [0],
     "no-confusing-arrow": [0],
     "no-underscore-dangle": [0],
+    "function-paren-newline": [0],
     "import/no-extraneous-dependencies": [0],
     "arrow-parens": [0],
     "generator-star-spacing": [0],
@@ -34,6 +35,9 @@
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error"
+    "jest/valid-expect": "error",
+    "comma-dangle": ["error", {
+      "functions": "ignore"
+    }]
   }
 }
