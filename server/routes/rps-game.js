@@ -3,9 +3,7 @@ import * as RpsGameController from '../controllers/rps-game';
 
 const router = new Router();
 
-router.get('/', RpsGameController.findAll);
-router.post('/', RpsGameController.create);
-router.post('/:id', RpsGameController.update);
-router.delete('/:id', RpsGameController.destroy);
+router.get('/game/:id', RpsGameController.gamePage);
+router.get('/404', RpsGameController.error404);
 
 module.exports = router.routes();

@@ -1,6 +1,11 @@
-import RpsGameModel from './rps-game';
+import ApiRoutes from './rps-api';
+import AppRoutes from './rps-game';
 
-export default (router) => {
+export const apiRoutes = (router) => {
   router.prefix('/v1');
-  router.use('/rps-games', RpsGameModel);
+  router.use('/rps-games', ApiRoutes);
+};
+
+export const appRoutes = (router) => {
+  router.use(AppRoutes);
 };

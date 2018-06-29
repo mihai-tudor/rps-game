@@ -6,11 +6,17 @@ import BodyParser from 'koa-bodyparser';
 import Helmet from 'koa-helmet';
 import respond from 'koa-respond';
 import mongoose from 'mongoose';
-import koaStatic from 'koa-static';
-import rpsRoutes from './routes/index';
+import serve from 'koa-static';
+import { apiRoutes, appRoutes } from './routes';
 
 const app = new Koa();
-const router = new Router();
+const apiRouter = new Router();
+const appRouter = new Router();
+
+const handle404Errors = (ctx) => {
+  if (ctx.status !== 404) return;
+  ctx.body = 'Sorry, 404';
+};
 
 app.use(Helmet());
 
@@ -28,16 +34,20 @@ app.use(BodyParser({
       console.log(err.stack);
     }
     ctx.throw('body parse error', 422)
-  },
+  }
 }));
 
 app.use(respond());
 
 // API routes
-rpsRoutes(router);
-app.use(router.routes());
-app.use(router.allowedMethods());
-app.use(koaStatic('./build'));
+apiRoutes(apiRouter);
+app.use(apiRouter.routes());
+app.use(apiRouter.allowedMethods());
+// APP routes
+appRoutes(appRouter);
+app.use(appRouter.routes());
+app.use(serve('./build'));
+app.use(handle404Errors);
 
 mongoose.connect(process.env.MONGODB_URI);
 
