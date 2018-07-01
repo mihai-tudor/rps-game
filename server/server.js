@@ -7,6 +7,7 @@ import Helmet from 'koa-helmet';
 import respond from 'koa-respond';
 import mongoose from 'mongoose';
 import serve from 'koa-static';
+import compress from 'koa-compress';
 import { apiRoutes, appRoutes } from './routes';
 
 const app = new Koa();
@@ -18,6 +19,7 @@ const handle404Errors = (ctx) => {
   ctx.body = 'Sorry, 404';
 };
 
+app.use(compress());
 app.use(Helmet());
 
 if (process.env.NODE_ENV === 'development') {
