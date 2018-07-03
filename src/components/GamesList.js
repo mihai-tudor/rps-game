@@ -19,10 +19,10 @@ Game.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   player1: PropTypes.arrayOf(PropTypes.number).isRequired,
-  player2: PropTypes.arrayOf(PropTypes.number).isRequired,
+  player2: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
-class Games extends Component {
+class GamesList extends Component {
   componentDidMount() {
     this.props.fetchGames();
   }
@@ -47,21 +47,21 @@ class Games extends Component {
   }
 }
 
-Games.propTypes = {
+GamesList.propTypes = {
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
   fetchGames: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
   games: state.games.games,
   isLoading: state.games.loading,
-  error: state.games.error,
+  error: state.games.error
 });
 
 const mapDispatchToProps = {
-  fetchGames,
+  fetchGames
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Games);
+export default connect(mapStateToProps, mapDispatchToProps)(GamesList);

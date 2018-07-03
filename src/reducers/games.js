@@ -3,7 +3,7 @@ import { FETCH_GAMES, LOADED_GAMES, GAMES_FAILURE } from '../actions/games';
 export const GAMES_DEFAULT_STATE = {
   games: [],
   loading: true,
-  error: '',
+  error: ''
 };
 
 export default function games(state = GAMES_DEFAULT_STATE, action) {
@@ -17,7 +17,7 @@ export default function games(state = GAMES_DEFAULT_STATE, action) {
 
     case GAMES_FAILURE: {
       return {
-        ...state, loading: false, error: action.error,
+        ...state, loading: false, error: action.error
       };
     }
 

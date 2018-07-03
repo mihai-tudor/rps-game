@@ -7,10 +7,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import rootReducer, { DEFAULT_STATE } from './reducers';
 import rootSaga from './sagas';
 import './index.css';
-import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-import Header from './components/Header';
+import Homepage from './pages/Homepage';
+import Game from './pages/Game';
 
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -25,8 +25,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <Route exact path="/" component={App} />
-        <Route exact path="/game/:id" component={Header} />
+        <Route exact path="/" component={Homepage} />
+        <Route exact path="/game/:id" component={Game} />
       </div>
     </Router>
   </Provider>, document.getElementById('root')
