@@ -29,17 +29,13 @@ const renderRounds = (numberOfRounds, playedRounds) => {
 
 class NewGame extends Component {
   render() {
-    const { setsOfRounds, numberOfRounds, newGameName, playedRounds } = this.props;
+    const {
+      setsOfRounds, numberOfRounds, newGameName, playedRounds
+    } = this.props;
 
     const createNewGame = (event) => {
       event.preventDefault();
       console.log('event.target.new_game_name.value: ', event.target.new_game_name.value);
-    };
-
-    const handlePlayedRounds = (event) => {
-      console.log('event.target.name: ', event.target.name);
-      console.log('event.target.value: ', event.target.value);
-      this.props.updatePlayedRounds(event.target);
     };
 
     return (
@@ -71,7 +67,7 @@ class NewGame extends Component {
                   }
                 </select>
               </div>
-              <div onChange={(e) => handlePlayedRounds(e)}>
+              <div onChange={(e) => this.props.updatePlayedRounds(e.target)}>
                 {renderRounds(numberOfRounds, playedRounds)}
               </div>
               <div className="field is-grouped is-grouped-centered">

@@ -10,7 +10,12 @@ export const NEW_GAME_DEFAULT_STATE = {
 export default function newGame(state = NEW_GAME_DEFAULT_STATE, action) {
   switch (action.type) {
     case UPDATE_GAME_ROUNDS: {
-      return { ...state, numberOfRounds: action.newRounds };
+      const { playedRounds } = state;
+      return {
+        ...state,
+        numberOfRounds: action.newRounds,
+        playedRounds: playedRounds.slice(0, action.newRounds)
+      };
     }
 
     case UPDATE_GAME_NAME: {
