@@ -5,21 +5,22 @@ import { Link } from 'react-router-dom';
 import { fetchGames } from '../actions/games';
 
 const Game = ({
-  id, name, player1, player2
+  id, p1Name, p2Name, p1Rounds, p2Rounds
 }) => (
   <div>
     <div>Game id: {id}</div>
-    <div>Game name: <Link to={{ pathname: `/game/${id}` }}>{name}</Link></div>
-    <div>Player 1: {player1}</div>
-    <div>Player 2: {player2}</div>
+    <div>Game name: <Link to={{ pathname: `/game/${id}` }}>{`${p1Name} vs ${p2Name}`}</Link></div>
+    <div>Player 1 played: {p1Rounds}</div>
+    <div>Player 2 played: {p2Rounds}</div>
   </div>
 );
 
 Game.propTypes = {
-  name: PropTypes.string.isRequired,
+  p1Name: PropTypes.string.isRequired,
+  p2Name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  player1: PropTypes.arrayOf(PropTypes.number).isRequired,
-  player2: PropTypes.arrayOf(PropTypes.number).isRequired
+  p1Rounds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  p2Rounds: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
 class GamesList extends Component {
@@ -32,14 +33,15 @@ class GamesList extends Component {
 
     return (
       <div>
-        <div>Games</div>
+        <h2 className="subtitle white">Games</h2>
         <div>{ isLoading ? 'Loading games...' : '' }</div>
         {games.map((game) => (<Game
           key={game._id}
           id={game._id}
-          name={game.name}
-          player1={game.p1}
-          player2={game.p2}
+          p1Name={game.p1_name}
+          p2Name={game.p2_name}
+          p1Rounds={game.p1_rounds}
+          p2Rounds={game.p2_rounds}
         />))}
         <div>{ error }</div>
       </div>

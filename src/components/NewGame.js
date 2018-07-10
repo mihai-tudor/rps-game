@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import 'bulma/css/bulma.css';
-import { updateRounds, updateName, updatePlayedRounds, submitNewGame } from '../actions/newGame';
+import { updateRounds, updateName, updatePlayedRounds, createNewGame, submitError } from '../actions/newGame';
 
 const generateKey = (pre) => `${pre}_${new Date().getTime()}`;
 
 const renderRounds = (numberOfRounds, playedRounds, updatePlayedRound) => {
   const radioRounds = [];
-  console.log('playedRounds: ', playedRounds);
   for (let i = 0; i < numberOfRounds; i += 1) {
     radioRounds.push(
       <div key={generateKey(i)} className="control" onChange={(e) => updatePlayedRound(e.target)}>
@@ -30,6 +29,14 @@ const renderRounds = (numberOfRounds, playedRounds, updatePlayedRound) => {
   return radioRounds;
 };
 
+const renderErrorSave = (errMsg) => (
+  <div className="notification is-danger">
+    Failed to create game!
+    <br />
+    {errMsg}
+  </div>
+);
+
 const renderErrorRounds = () => (
   <div className="help is-danger">
       You have to choose rock, paper or scissors for all rounds!
@@ -42,21 +49,42 @@ const renderErrorName = () => (
   </div>
 );
 
+const isErrorName = (name) => name.length < 1;
+
+const isErrorRounds = (roundsPlayed, numberOfRounds) => {
+  const notNullRounds = roundsPlayed.filter((r) => r !== null);
+  if (notNullRounds.length !== numberOfRounds) {
+    return true;
+  }
+  return notNullRounds.some(Number.isNaN);
+};
+
 class NewGame extends Component {
   render() {
     const {
-      setsOfRounds, numberOfRounds, playerName, playedRounds, errorRounds, errorName
+      setsOfRounds, numberOfRounds, playerName, playedRounds,
+      errorRounds, errorName, saving, saveError, saveErrorMsg
     } = this.props;
 
-    const createNewGame = (event) => {
+    const submitNewGame = (event) => {
       event.preventDefault();
-      this.props.submitNewGame(playerName, playedRounds, numberOfRounds);
+
+      const nameHasError = isErrorName(playerName);
+      const roundsHasError = isErrorRounds(playedRounds, numberOfRounds);
+      if (nameHasError || roundsHasError) {
+        console.log('has error: ', nameHasError, roundsHasError);
+        this.props.submitError(nameHasError, roundsHasError);
+      } else {
+        console.log('no error, props: ', this.props);
+        this.props.createNewGame(this.props);
+      }
+      // this.props.submitNewGame(playerName, playedRounds, numberOfRounds);
     };
 
     return (
       <section className="section full-column">
         <h1 className="title white">Create new game</h1>
-        <form className="form" onSubmit={createNewGame}>
+        <form className="form" onSubmit={submitNewGame}>
           <div className="field has-addons" style={{ justifyContent: 'center' }}>
             <div className="control">
               <div className="field-body">
@@ -95,9 +123,10 @@ class NewGame extends Component {
               </div>
               <div className="field is-grouped is-grouped-centered">
                 <button className="button is-primary">
-                  Create new game
+                  {saving ? 'Creating new game...' : 'Create new game'}
                 </button>
               </div>
+              {saveError ? renderErrorSave(saveErrorMsg) : ''}
             </div>
           </div>
         </form>
@@ -113,10 +142,14 @@ NewGame.propTypes = {
   playedRounds: PropTypes.arrayOf(PropTypes.number).isRequired,
   updateRounds: PropTypes.func.isRequired,
   updateName: PropTypes.func.isRequired,
-  submitNewGame: PropTypes.func.isRequired,
+  submitError: PropTypes.func.isRequired,
+  createNewGame: PropTypes.func.isRequired,
   updatePlayedRounds: PropTypes.func.isRequired,
   errorName: PropTypes.bool.isRequired,
-  errorRounds: PropTypes.bool.isRequired
+  errorRounds: PropTypes.bool.isRequired,
+  saving: PropTypes.bool.isRequired,
+  saveError: PropTypes.bool.isRequired,
+  saveErrorMsg: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -125,14 +158,18 @@ const mapStateToProps = (state) => ({
   playerName: state.newGame.playerName,
   playedRounds: state.newGame.playedRounds,
   errorName: state.newGame.errorName,
-  errorRounds: state.newGame.errorRounds
+  errorRounds: state.newGame.errorRounds,
+  saving: state.newGame.saving,
+  saveError: state.newGame.saveError,
+  saveErrorMsg: state.newGame.saveErrorMsg
 });
 
 const mapDispatchToProps = {
   updateRounds,
   updateName,
   updatePlayedRounds,
-  submitNewGame
+  submitError,
+  createNewGame
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewGame);

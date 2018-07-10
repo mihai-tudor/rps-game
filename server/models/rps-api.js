@@ -3,12 +3,12 @@ import mongoose from 'mongoose';
 // Declare Schema
 const RpsGameSchema = new mongoose.Schema(
   {
-    name: { type: String },
+    p1_name: { type: String },
+    p2_name: { type: String },
+    p1_rounds: [Number],
+    p2_rounds: [Number],
     rounds: { type: Number },
-    p1: [Number],
-    p2: [Number],
-    ended: { type: Boolean },
-    seen: { type: Boolean },
+    ended: { type: Boolean }
   },
   { timestamps: true },
 );

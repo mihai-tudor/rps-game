@@ -1,4 +1,11 @@
-import { UPDATE_GAME_ROUNDS, UPDATE_GAME_NAME, UPDATE_PLAYED_ROUNDS, SUBMIT_GAME } from '../actions/newGame';
+import {
+  UPDATE_GAME_ROUNDS,
+  UPDATE_GAME_NAME,
+  UPDATE_PLAYED_ROUNDS,
+  CREATE_NEW_GAME,
+  CREATE_SUCCESS,
+  CREATE_FAILURE, SUBMIT_ERROR
+} from '../actions/newGame';
 
 export const NEW_GAME_DEFAULT_STATE = {
   setsOfRounds: [1, 3, 5, 8, 10],
@@ -6,18 +13,13 @@ export const NEW_GAME_DEFAULT_STATE = {
   playerName: '',
   playedRounds: [],
   errorName: false,
-  errorRounds: false
+  errorRounds: false,
+  saving: false,
+  saveError: false,
+  saveErrorMsg: ''
 };
 
 const isErrorName = (name) => name.length < 1;
-
-const isErrorRounds = (roundsPlayed, numberOfRounds) => {
-  const notNullRounds = roundsPlayed.filter((r) => r !== null);
-  if (notNullRounds.length !== numberOfRounds) {
-    return true;
-  }
-  return notNullRounds.some(Number.isNaN);
-};
 
 export default function newGame(state = NEW_GAME_DEFAULT_STATE, action) {
   switch (action.type) {
@@ -43,18 +45,26 @@ export default function newGame(state = NEW_GAME_DEFAULT_STATE, action) {
       return { ...state, playedRounds };
     }
 
-    case SUBMIT_GAME: {
-      const { playerName, playedRounds, numberOfRounds } = action;
-      const errorName = isErrorName(playerName);
-      const errorRounds = isErrorRounds(playedRounds, numberOfRounds);
-      if (errorName || errorRounds) {
-        return { ...state, errorName, errorRounds };
-      }
-      // z
-      // save to db
-      // z
+    case SUBMIT_ERROR: {
+      return { ...state, errorName: action.errorName, errorRounds: action.errorRounds };
+    }
+
+    case CREATE_NEW_GAME: {
+      console.log('react CREATE_NEW_GAME: ', action.newGame);
       return {
-        ...state, playerName: '', playedRounds: [], errorName: false, errorRounds: false
+        ...state, saving: true
+      };
+    }
+
+    case CREATE_SUCCESS: {
+      return {
+        ...state, playerName: '', playedRounds: [], errorName: false, errorRounds: false, saving: false
+      };
+    }
+
+    case CREATE_FAILURE: {
+      return {
+        ...state, saving: false, saveErrorMsg: action.error
       };
     }
 
