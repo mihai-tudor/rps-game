@@ -6,15 +6,14 @@ function* getAllGames() {
   try {
     const res = yield call(fetch, 'v1/rps-games');
     const games = yield res.json();
-    yield put(loadedGames(games))
+    yield put(loadedGames(games));
   } catch (e) {
-    yield put(gamesFailure(e.message))
+    yield put(gamesFailure(e.message));
   }
 }
 
 function* saveGame(action) {
   try {
-    console.log('saga CREATE_NEW_GAME: ', action.newGame);
     const gameValues = {
       p1_name: action.newGame.playerName,
       p2_name: '',
@@ -34,9 +33,9 @@ function* saveGame(action) {
 
     const res = yield call(fetch, 'v1/rps-games', options);
     const game = yield res.json();
-    yield put(addGameSuccess(game))
+    yield put(addGameSuccess(game._id));
   } catch (e) {
-    yield put(addGameFailure(e.message))
+    yield put(addGameFailure(e.message));
   }
 }
 

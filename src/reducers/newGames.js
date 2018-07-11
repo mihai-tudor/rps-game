@@ -16,7 +16,8 @@ export const NEW_GAME_DEFAULT_STATE = {
   errorRounds: false,
   saving: false,
   saveError: false,
-  saveErrorMsg: ''
+  saveErrorMsg: '',
+  createdGameId: ''
 };
 
 const isErrorName = (name) => name.length < 1;
@@ -50,7 +51,6 @@ export default function newGame(state = NEW_GAME_DEFAULT_STATE, action) {
     }
 
     case CREATE_NEW_GAME: {
-      console.log('react CREATE_NEW_GAME: ', action.newGame);
       return {
         ...state, saving: true
       };
@@ -58,7 +58,7 @@ export default function newGame(state = NEW_GAME_DEFAULT_STATE, action) {
 
     case CREATE_SUCCESS: {
       return {
-        ...state, playerName: '', playedRounds: [], errorName: false, errorRounds: false, saving: false
+        ...state, playerName: '', playedRounds: [], errorName: false, errorRounds: false, saving: false, createdGameId: action.newGameId
       };
     }
 

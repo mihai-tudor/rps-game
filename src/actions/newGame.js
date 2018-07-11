@@ -30,10 +30,9 @@ export function createNewGame(newGame) {
   }
 }
 
-export function addGameSuccess(newGame) {
-  console.log('addGameSuccess: ', newGame);
+export function addGameSuccess(newGameId) {
   return {
-    type: CREATE_SUCCESS, newGame
+    type: CREATE_SUCCESS, newGameId
   }
 }
 

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import 'bulma/css/bulma.css';
 import { updateRounds, updateName, updatePlayedRounds, createNewGame, submitError } from '../actions/newGame';
-
-const generateKey = (pre) => `${pre}_${new Date().getTime()}`;
+import generateKey from '../common/utils';
+import { isErrorName, isErrorRounds } from '../common/formValidation';
 
 const renderRounds = (numberOfRounds, playedRounds, updatePlayedRound) => {
   const radioRounds = [];
@@ -49,21 +49,18 @@ const renderErrorName = () => (
   </div>
 );
 
-const isErrorName = (name) => name.length < 1;
-
-const isErrorRounds = (roundsPlayed, numberOfRounds) => {
-  const notNullRounds = roundsPlayed.filter((r) => r !== null);
-  if (notNullRounds.length !== numberOfRounds) {
-    return true;
-  }
-  return notNullRounds.some(Number.isNaN);
-};
+const renderSuccess = (newGameId) => (
+  <div className="notification has-text-centered is-success">
+    Game successfully created, send this link to your opponent:
+    <p>{`${window.location.origin}/game/${newGameId}`}</p>
+  </div>
+);
 
 class NewGame extends Component {
   render() {
     const {
       setsOfRounds, numberOfRounds, playerName, playedRounds,
-      errorRounds, errorName, saving, saveError, saveErrorMsg
+      errorRounds, errorName, saving, saveError, saveErrorMsg, createdGameId
     } = this.props;
 
     const submitNewGame = (event) => {
@@ -72,13 +69,11 @@ class NewGame extends Component {
       const nameHasError = isErrorName(playerName);
       const roundsHasError = isErrorRounds(playedRounds, numberOfRounds);
       if (nameHasError || roundsHasError) {
-        console.log('has error: ', nameHasError, roundsHasError);
         this.props.submitError(nameHasError, roundsHasError);
       } else {
         console.log('no error, props: ', this.props);
         this.props.createNewGame(this.props);
       }
-      // this.props.submitNewGame(playerName, playedRounds, numberOfRounds);
     };
 
     return (
@@ -127,6 +122,7 @@ class NewGame extends Component {
                 </button>
               </div>
               {saveError ? renderErrorSave(saveErrorMsg) : ''}
+              {createdGameId ? renderSuccess(createdGameId) : ''}
             </div>
           </div>
         </form>
@@ -149,7 +145,8 @@ NewGame.propTypes = {
   errorRounds: PropTypes.bool.isRequired,
   saving: PropTypes.bool.isRequired,
   saveError: PropTypes.bool.isRequired,
-  saveErrorMsg: PropTypes.string.isRequired
+  saveErrorMsg: PropTypes.string.isRequired,
+  createdGameId: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -161,7 +158,8 @@ const mapStateToProps = (state) => ({
   errorRounds: state.newGame.errorRounds,
   saving: state.newGame.saving,
   saveError: state.newGame.saveError,
-  saveErrorMsg: state.newGame.saveErrorMsg
+  saveErrorMsg: state.newGame.saveErrorMsg,
+  createdGameId: state.newGame.createdGameId
 });
 
 const mapDispatchToProps = {
