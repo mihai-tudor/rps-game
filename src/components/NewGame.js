@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import 'bulma/css/bulma.css';
 import { updateRounds, updateName, updatePlayedRounds, createNewGame, submitError } from '../actions/newGame';
-import generateKey from '../common/utils';
+import { generateKey } from '../common/utils';
 import { isErrorName, isErrorRounds } from '../common/formValidation';
 
 const renderRounds = (numberOfRounds, playedRounds, updatePlayedRound) => {

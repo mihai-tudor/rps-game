@@ -4,7 +4,8 @@ import {
   UPDATE_PLAYED_ROUNDS,
   CREATE_NEW_GAME,
   CREATE_SUCCESS,
-  CREATE_FAILURE, SUBMIT_ERROR
+  CREATE_FAILURE,
+  SUBMIT_ERROR
 } from '../actions/newGame';
 
 import { isErrorName } from '../common/formValidation';
