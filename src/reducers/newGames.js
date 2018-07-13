@@ -7,6 +7,8 @@ import {
   CREATE_FAILURE, SUBMIT_ERROR
 } from '../actions/newGame';
 
+import { isErrorName } from '../common/formValidation';
+
 export const NEW_GAME_DEFAULT_STATE = {
   setsOfRounds: [1, 3, 5, 8, 10],
   numberOfRounds: 3,
@@ -19,8 +21,6 @@ export const NEW_GAME_DEFAULT_STATE = {
   saveErrorMsg: '',
   createdGameId: ''
 };
-
-const isErrorName = (name) => name.length < 1;
 
 export default function newGame(state = NEW_GAME_DEFAULT_STATE, action) {
   switch (action.type) {

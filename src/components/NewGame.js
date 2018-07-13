@@ -45,7 +45,7 @@ const renderErrorRounds = () => (
 
 const renderErrorName = () => (
   <div className="help is-danger">
-    Your name is required!
+    Your name is required and it cannot exceed 15 characters!
   </div>
 );
 
@@ -71,7 +71,6 @@ class NewGame extends Component {
       if (nameHasError || roundsHasError) {
         this.props.submitError(nameHasError, roundsHasError);
       } else {
-        console.log('no error, props: ', this.props);
         this.props.createNewGame(this.props);
       }
     };

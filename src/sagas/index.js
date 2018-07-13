@@ -22,7 +22,6 @@ function* saveGame(action) {
       rounds: action.newGame.numberOfRounds,
       ended: false
     };
-    console.log('gameValues: ', gameValues);
     const options = {
       method: 'POST',
       body: JSON.stringify(gameValues),
