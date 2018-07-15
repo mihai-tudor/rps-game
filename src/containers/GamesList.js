@@ -10,10 +10,29 @@ const Game = ({
   <div>
     <div>Game id: {id}</div>
     <div>Game name: <Link to={{ pathname: `/game/${id}` }}>{`${p1Name} vs ${p2Name}`}</Link></div>
-    <div>Player 1 played: {p1Rounds}</div>
-    <div>Player 2 played: {p2Rounds}</div>
+    <div>Player 1: {p1Rounds}</div>
+    <div>Player 2: {p2Rounds}</div>
   </div>
 );
+
+const displayGames = (isLoading, games, error) => {
+  if (error) {
+    return <div>{error}</div>
+  }
+  if (isLoading) {
+    return <div>Loading games...</div>
+  }
+  return (
+    games.map((game) => (<Game
+      key={game._id}
+      id={game._id}
+      p1Name={game.p1_name}
+      p2Name={game.p2_name}
+      p1Rounds={game.p1_rounds}
+      p2Rounds={game.p2_rounds}
+    />))
+  );
+};
 
 Game.propTypes = {
   p1Name: PropTypes.string.isRequired,
@@ -34,16 +53,7 @@ class GamesList extends Component {
     return (
       <div>
         <h2 className="subtitle white">Games</h2>
-        <div>{ isLoading ? 'Loading games...' : '' }</div>
-        {games.map((game) => (<Game
-          key={game._id}
-          id={game._id}
-          p1Name={game.p1_name}
-          p2Name={game.p2_name}
-          p1Rounds={game.p1_rounds}
-          p2Rounds={game.p2_rounds}
-        />))}
-        <div>{ error }</div>
+        {displayGames(isLoading, games, error)}
       </div>
     )
   }

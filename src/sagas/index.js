@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import * as log from 'loglevel';
 import { FETCH_GAMES, loadedGames, gamesFailure } from '../actions/games';
 import { FETCH_GAME, loadedGame, gameFailure } from '../actions/game';
 import { CREATE_NEW_GAME, addGameSuccess, addGameFailure } from '../actions/newGame';
@@ -46,7 +47,8 @@ function* saveGame(action) {
     const game = yield res.json();
     yield put(addGameSuccess(game._id));
   } catch (e) {
-    yield put(addGameFailure(e.message));
+    log.error(`Failed to create game! ${e.message}`);
+    yield put(addGameFailure());
   }
 }
 

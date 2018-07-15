@@ -19,7 +19,6 @@ export const NEW_GAME_DEFAULT_STATE = {
   errorRounds: false,
   saving: false,
   saveError: false,
-  saveErrorMsg: '',
   createdGameId: ''
 };
 
@@ -65,7 +64,7 @@ export default function newGame(state = NEW_GAME_DEFAULT_STATE, action) {
 
     case CREATE_FAILURE: {
       return {
-        ...state, saving: false, saveErrorMsg: action.error
+        ...state, saving: false, saveError: true
       };
     }
 

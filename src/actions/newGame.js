@@ -36,8 +36,8 @@ export function addGameSuccess(newGameId) {
   }
 }
 
-export function addGameFailure(error) {
+export function addGameFailure() {
   return {
-    type: CREATE_FAILURE, error
+    type: CREATE_FAILURE
   }
 }
