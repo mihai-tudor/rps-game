@@ -10,7 +10,7 @@ const GameEnded = ({
 }) => (
   <div>
     <div>Game id: {id}</div>
-    <div>{`${p1Name} vs ${p2Name}`}</div>
+    <div>{p1Name} vs {p2Name}</div>
     <div>Player 1: {p1Rounds}</div>
     <div>Player 2: {p2Rounds}</div>
     <button>Replay</button>

@@ -13,7 +13,7 @@ import FormError from '../components/FormError';
 const renderSuccess = (newGameId) => (
   <div className="notification has-text-centered is-success">
     Game successfully created, send this link to your opponent:
-    <p>{`${getDomain()}/game/${newGameId}`}</p>
+    <p>{getDomain()}/game/{newGameId}</p>
   </div>
 );
 
@@ -55,7 +55,7 @@ class NewGame extends Component {
                 errorRounds={errorRounds}
               />
               <div className="field is-grouped is-grouped-centered">
-                <button className="button is-primary">
+                <button className={saving ? 'is-loading button is-primary' : 'button is-primary'}>
                   {saving ? 'Creating new game...' : 'Create new game'}
                 </button>
               </div>
