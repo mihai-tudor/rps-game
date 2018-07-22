@@ -52,6 +52,9 @@ const RpsGameSchema = new mongoose.Schema(
     ended: {
       type: Boolean,
       default: false
+    },
+    winner: {
+      type: Number
     }
   },
   { timestamps: true },
