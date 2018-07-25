@@ -7,6 +7,7 @@ export const SENT_SUCCESS = 'SENT_SUCCESS';
 export const SENT_SUBMIT_ERROR = 'SENT_SUBMIT_ERROR';
 export const RESPONSE_UPDATE_GAME_NAME = 'RESPONSE_UPDATE_GAME_NAME';
 export const RESPONSE_UPDATE_PLAYED_ROUNDS = 'RESPONSE_UPDATE_PLAYED_ROUNDS';
+export const REPLAY_GAME = 'REPLAY_GAME';
 
 export function loadedGame(game) {
   return { type: LOADED_GAME, game }
@@ -50,4 +51,8 @@ export function updateName(playerName) {
 
 export function updatePlayedRounds(newPlayedRound) {
   return { type: RESPONSE_UPDATE_PLAYED_ROUNDS, newPlayedRound }
+}
+
+export function replayGame() {
+  return { type: REPLAY_GAME }
 }

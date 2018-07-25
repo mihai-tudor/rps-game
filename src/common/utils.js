@@ -9,13 +9,18 @@ export const printWinner = (p1, p2, winner) => {
   }
 };
 
+export const generateDefaultCardsTurned = (rounds) => {
+  const arrDefaultTurned = new Array(rounds).fill(false);
+  return { p1: arrDefaultTurned, p2: arrDefaultTurned };
+};
+
 /**
  * Gets the winner of a round. 0 = rock, 1 = paper, 2 = scissors.
  * @param {number} p1 What player 1 played.
  * @param {number} p2 What player 2 played.
  * @returns {number} Returns 1 if player 1 won, 2 if player 2 won and 0 if draw.
  */
-export const whoWonRound = (p1, p2) => {
+const whoWonRound = (p1, p2) => {
   if (p1 === p2) {
     return 0;
   }
@@ -31,25 +36,38 @@ export const whoWonRound = (p1, p2) => {
   return 2
 };
 
-export const whoWonGame = (numberOfRounds, p1, p2) => {
-  let p1wins = 0;
-  let p2wins = 0;
-  for (let i = 0; i < numberOfRounds; i += 1) {
-    let roundWinner = 0;
-    roundWinner = whoWonRound(p1[i], p2[i]);
-    if (roundWinner === 1) {
-      p1wins += 1;
-    }
-    if (roundWinner === 2) {
-      p2wins += 1;
-    }
-  }
+export const getPlayerNumberOfVictories = (arrWins) => {
+  return arrWins.filter(v => v).length;
+};
 
-  if (p1wins === p2wins) {
+const whoWonGame = (p1wins, p2wins) => {
+  const p1Victories = getPlayerNumberOfVictories(p1wins);
+  const p2Victories = getPlayerNumberOfVictories(p2wins);
+  if (p1Victories === p2Victories) {
     return 0;
   }
-  if (p1wins > p2wins) {
+  if (p1Victories > p2Victories) {
     return 1
   }
   return 2
+};
+
+export const getRoundsResults = (game) => {
+  const p1wins = [];
+  const p2wins = [];
+  for (let i = 0; i < game.rounds; i += 1) {
+    p1wins[i] = null;
+    p2wins[i] = null;
+    let roundWinner = 0;
+    roundWinner = whoWonRound(game.p1_rounds[i], game.p2_rounds[i]);
+    if (roundWinner === 1) {
+      p1wins[i] = true;
+      p2wins[i] = false;
+    }
+    if (roundWinner === 2) {
+      p1wins[i] = false;
+      p2wins[i] = true;
+    }
+  }
+  return { p1_rounds_won: p1wins, p2_rounds_won: p2wins, winner: whoWonGame(p1wins, p2wins) };
 };

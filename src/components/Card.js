@@ -8,16 +8,37 @@ import paper from '../images/paper.svg';
 import scissors from '../images/scissors.svg';
 import cardBack from '../images/card-back.svg';
 
-const CardImage = ({ cardNumber }) => {
+const getRoundClass = (wonState) => {
+  if (wonState === null) {
+    return 'box has-background-warning';
+  }
+  if (wonState) {
+    return 'box has-background-success';
+  }
+  return 'box has-background-danger';
+};
+
+const getCardImageSrc = (cardNumber) => {
   switch (cardNumber) {
-    case 0: return <img src={rock} width="155" height="155" alt="rock" />;
-    case 1: return <img src={paper} width="155" height="155" alt="paper" />;
-    default: return <img src={scissors} width="155" height="155" alt="paper" />;
+    case 0: return rock;
+    case 1: return paper;
+    default: return scissors;
   }
 };
 
+const CardImage = ({ cardNumber, won }) => (
+  <div className={getRoundClass(won)}>
+    <img src={getCardImageSrc(cardNumber)} width="155" height="155" alt="paper" />
+  </div>
+);
+
 CardImage.propTypes = {
-  cardNumber: PropTypes.number.isRequired
+  cardNumber: PropTypes.number.isRequired,
+  won: PropTypes.bool
+};
+
+CardImage.defaultProps = {
+  won: null
 };
 
 class Card extends Component {
@@ -25,29 +46,30 @@ class Card extends Component {
     super(props);
     this.state = {
       isFlipped: false
-    };
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.turnCard) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.setState({
+            isFlipped: true
+          });
+        });
+      });
+    }
   }
 
   render() {
-    const toggleCard = () => {
-      this.setState({
-        isFlipped: !this.state.isFlipped
-      });
-    };
-
+    const { cardNumber, won } = this.props;
     return (
-      <div className="tile is-child has-text-centered">
+      <div className="tile is-child has-text-centered" role="presentation">
         <FlipCard flipped={this.state.isFlipped} type="horizontal">
-          <div>
-            <button onClick={toggleCard}>
-              <img src={cardBack} width="155" height="155" alt="paper" />
-            </button>
+          <div className="box has-background-light">
+            <img src={cardBack} width="155" height="155" alt="paper" />
           </div>
-          <div>
-            <button onClick={toggleCard}>
-              <CardImage cardNumber={this.props.cardNumber} />
-            </button>
-          </div>
+          <CardImage cardNumber={cardNumber} won={won} />
         </FlipCard>
       </div>
     );
@@ -55,7 +77,14 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-  cardNumber: PropTypes.number.isRequired
+  cardNumber: PropTypes.number.isRequired,
+  won: PropTypes.bool,
+  turnCard: PropTypes.bool
+};
+
+Card.defaultProps = {
+  won: null,
+  turnCard: false
 };
 
 export default Card;

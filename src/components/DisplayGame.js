@@ -5,7 +5,8 @@ import GameOngoing from '../components/GameOngoing';
 
 const DisplayGame = ({
   isLoading, game, error, playerName, errorName, playedRounds, updateName,
-  updatePlayedRounds, errorRounds, saving, saveError, sentResponse, submitError
+  updatePlayedRounds, errorRounds, saving, saveError, sentResponse, submitError,
+  cardsTurned, playerScores, playing, replayGame
 }) => {
   if (error) {
     return <div>{error}</div>
@@ -21,6 +22,12 @@ const DisplayGame = ({
         p2Name={game.p2_name}
         p1Rounds={game.p1_rounds}
         p2Rounds={game.p2_rounds}
+        p1RoundsWon={game.p1_rounds_won}
+        p2RoundsWon={game.p2_rounds_won}
+        cardsTurned={cardsTurned}
+        playerScores={playerScores}
+        playing={playing}
+        replayGame={replayGame}
       />
     );
   }
@@ -56,7 +63,11 @@ DisplayGame.propTypes = {
   saving: PropTypes.bool.isRequired,
   saveError: PropTypes.bool.isRequired,
   sentResponse: PropTypes.func.isRequired,
-  submitError: PropTypes.func.isRequired
+  submitError: PropTypes.func.isRequired,
+  cardsTurned: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.bool)).isRequired,
+  playerScores: PropTypes.objectOf(PropTypes.number).isRequired,
+  playing: PropTypes.bool.isRequired,
+  replayGame: PropTypes.func.isRequired
 };
 
 export default DisplayGame;

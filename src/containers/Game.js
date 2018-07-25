@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchGame, updateName, updatePlayedRounds, sentResponse, submitError } from '../actions/game';
+import { fetchGame, updateName, updatePlayedRounds, sentResponse, submitError, replayGame } from '../actions/game';
 import DisplayGame from '../components/DisplayGame';
 
 class Game extends Component {
@@ -12,7 +12,8 @@ class Game extends Component {
 
   render() {
     const {
-      game, isLoading, error, playerName, errorName, playedRounds, errorRounds, saving, saveError
+      game, isLoading, error, playerName, errorName, playedRounds, errorRounds,
+      saving, saveError, playing, cardsTurned, playerScores
     } = this.props;
 
     return (
@@ -32,6 +33,10 @@ class Game extends Component {
           saveError={saveError}
           sentResponse={this.props.sentResponse}
           submitError={this.props.submitError}
+          playing={playing}
+          cardsTurned={cardsTurned}
+          playerScores={playerScores}
+          replayGame={this.props.replayGame}
         />
       </div>
     )
@@ -53,7 +58,11 @@ Game.propTypes = {
   saving: PropTypes.bool.isRequired,
   saveError: PropTypes.bool.isRequired,
   sentResponse: PropTypes.func.isRequired,
-  submitError: PropTypes.func.isRequired
+  submitError: PropTypes.func.isRequired,
+  cardsTurned: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.bool)).isRequired,
+  playerScores: PropTypes.objectOf(PropTypes.number).isRequired,
+  playing: PropTypes.bool.isRequired,
+  replayGame: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -65,7 +74,10 @@ const mapStateToProps = (state) => ({
   errorName: state.game.errorName,
   errorRounds: state.game.errorRounds,
   saving: state.game.saving,
-  saveError: state.game.saveError
+  saveError: state.game.saveError,
+  playerScores: state.game.playerScores,
+  cardsTurned: state.game.cardsTurned,
+  playing: state.game.playing
 });
 
 const mapDispatchToProps = {
@@ -73,7 +85,8 @@ const mapDispatchToProps = {
   sentResponse,
   updateName,
   updatePlayedRounds,
-  submitError
+  submitError,
+  replayGame
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Game));

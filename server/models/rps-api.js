@@ -11,6 +11,16 @@ const validateArrayForRounds = {
   message: 'Rounds array can contain only number between 0-2 and the size must be same as rounds value!'
 };
 
+const validateArrayForWonRounds = {
+  validator(array) {
+    if (array === null) { return true; }
+    const validateArrayItems = array.every((n) => typeof n === 'boolean' || n === null);
+    const validateArraySize = array.length === this.rounds;
+    return validateArrayItems && validateArraySize;
+  },
+  message: 'Rounds won array can contain only boolean or null and the size must be same as rounds value!'
+};
+
 const validateRounds = {
   validator(number) {
     return !isErrorRoundsNumber(number);
@@ -55,6 +65,14 @@ const RpsGameSchema = new mongoose.Schema(
     },
     winner: {
       type: Number
+    },
+    p1_rounds_won: {
+      type: Array,
+      validate: validateArrayForWonRounds
+    },
+    p2_rounds_won: {
+      type: Array,
+      validate: validateArrayForWonRounds
     }
   },
   { timestamps: true },
