@@ -7,7 +7,9 @@ import {
   RESPONSE_UPDATE_GAME_NAME,
   RESPONSE_UPDATE_PLAYED_ROUNDS,
   SENT_SUBMIT_ERROR,
-  REPLAY_GAME
+  REPLAY_GAME,
+  REPLAY_GAME_STOP,
+  REPLAY_GAME_PLAYING
 } from '../actions/game';
 
 import { isErrorName } from '../common/formValidation';
@@ -89,10 +91,28 @@ export default function games(state = GAME_DEFAULT_STATE, action) {
         p2: getPlayerNumberOfVictories(state.game.p2_rounds_won)
       };
       const cardsTurned = {
+        p1: state.cardsTurned.p1.fill(false),
+        p2: state.cardsTurned.p2.fill(false)
+      };
+      return {
+        ...state, cardsTurned, playerScores, playing: true
+      };
+    }
+
+    case REPLAY_GAME_PLAYING: {
+      const cardsTurned = {
         p1: state.cardsTurned.p1.fill(true),
         p2: state.cardsTurned.p2.fill(true)
       };
-      return { ...state, cardsTurned, playerScores };
+      return {
+        ...state, cardsTurned
+      };
+    }
+
+    case REPLAY_GAME_STOP: {
+      return {
+        ...state, playing: false
+      };
     }
 
     default:

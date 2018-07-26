@@ -50,13 +50,17 @@ class Card extends Component {
   }
 
   componentDidMount() {
-    if (this.props.turnCard) {
+    if (this.props.turnCard && this.props.playing) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           this.setState({
             isFlipped: true
           });
         });
+      });
+    } else {
+      this.setState({ // eslint-disable-line react/no-did-mount-set-state
+        isFlipped: this.props.turnCard
       });
     }
   }
@@ -79,7 +83,8 @@ class Card extends Component {
 Card.propTypes = {
   cardNumber: PropTypes.number.isRequired,
   won: PropTypes.bool,
-  turnCard: PropTypes.bool
+  turnCard: PropTypes.bool,
+  playing: PropTypes.bool.isRequired
 };
 
 Card.defaultProps = {

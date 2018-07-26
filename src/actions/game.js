@@ -8,6 +8,8 @@ export const SENT_SUBMIT_ERROR = 'SENT_SUBMIT_ERROR';
 export const RESPONSE_UPDATE_GAME_NAME = 'RESPONSE_UPDATE_GAME_NAME';
 export const RESPONSE_UPDATE_PLAYED_ROUNDS = 'RESPONSE_UPDATE_PLAYED_ROUNDS';
 export const REPLAY_GAME = 'REPLAY_GAME';
+export const REPLAY_GAME_PLAYING = 'REPLAY_GAME_PLAYING';
+export const REPLAY_GAME_STOP = 'REPLAY_GAME_STOP';
 
 export function loadedGame(game) {
   return { type: LOADED_GAME, game }
@@ -55,4 +57,12 @@ export function updatePlayedRounds(newPlayedRound) {
 
 export function replayGame() {
   return { type: REPLAY_GAME }
+}
+
+export function replayingGame() {
+  return { type: REPLAY_GAME_PLAYING }
+}
+
+export function replayingGameEnded() {
+  return { type: REPLAY_GAME_STOP }
 }

@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import * as log from 'loglevel';
 import { FETCH_GAMES, loadedGames, gamesFailure } from '../actions/games';
 import {
-  FETCH_GAME, SENT_RESPONSE,
-  loadedGame, gameFailure, responseSuccess, responseFailure
+  FETCH_GAME, SENT_RESPONSE, REPLAY_GAME,
+  loadedGame, gameFailure, responseSuccess, responseFailure, replayGame, replayingGameEnded, replayingGame
 } from '../actions/game';
 import { CREATE_NEW_GAME, addGameSuccess, addGameFailure } from '../actions/newGame';
 import { getDomain } from '../common/utils';
@@ -70,10 +71,17 @@ function* saveResponse(action) {
     const res = yield call(fetch, `${getDomain()}/v1/rps-games/${action.gameId}`, options);
     const game = yield res.json();
     yield put(responseSuccess(game));
+    yield put(replayGame());
   } catch (e) {
     log.error(`Failed to send response! ${e.message}`);
     yield put(responseFailure());
   }
+}
+
+function* cardsTurning() {
+  yield put(replayingGame());
+  yield call(delay, 600);
+  yield put(replayingGameEnded());
 }
 
 function* rootSaga() {
@@ -81,6 +89,7 @@ function* rootSaga() {
   yield takeLatest(FETCH_GAME, getGame);
   yield takeLatest(CREATE_NEW_GAME, saveGame);
   yield takeLatest(SENT_RESPONSE, saveResponse);
+  yield takeLatest(REPLAY_GAME, cardsTurning);
 }
 
 export default rootSaga;

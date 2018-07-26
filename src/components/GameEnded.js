@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from './Card';
 import { generateKey } from '../common/utils';
 
-const displayCards = (roundsPlayed, playerWins, cardsTurned) => {
+const displayCards = (roundsPlayed, playerWins, cardsTurned, playing) => {
   const cards = [];
   roundsPlayed.forEach(
     (played, key) => {
@@ -11,9 +11,9 @@ const displayCards = (roundsPlayed, playerWins, cardsTurned) => {
         <Card
           key={generateKey(`${played}-${key}`)}
           cardNumber={played}
-          isFlipped={false}
           won={playerWins[key]}
           turnCard={cardsTurned[key]}
+          playing={playing}
         />
       );
     }
@@ -28,8 +28,12 @@ const GameEnded = ({
   <div>
     <div>{p1Name} vs {p2Name}</div>
     <div className="columns is-mobile is-centered">
-      <div className="column is-2 has-text-centered">{displayCards(p1Rounds, p1RoundsWon, cardsTurned.p1)}</div>
-      <div className="column is-2 has-text-centered">{displayCards(p2Rounds, p2RoundsWon, cardsTurned.p2)}</div>
+      <div className="column is-4-mobile is-3-tablet is-2-desktop has-text-centered">
+        {displayCards(p1Rounds, p1RoundsWon, cardsTurned.p1, playing)}
+      </div>
+      <div className="column is-4-mobile is-3-tablet is-2-desktop has-text-centered">
+        {displayCards(p2Rounds, p2RoundsWon, cardsTurned.p2, playing)}
+      </div>
     </div>
     <div>{playerScores.p1} - {playerScores.p2}</div>
     <button onClick={replayGame}>{playing ? 'playing...' : 'Replay'}</button>
