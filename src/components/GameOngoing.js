@@ -1,37 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { addS } from '../common/utils';
 import NameInput from '../components/NameInput';
 import RoundsRadio from '../components/RoundsRadio';
 import FormError from '../components/FormError';
 import { isErrorName, isErrorRounds } from '../common/formValidation';
+import * as actionsGame from '../actions/game';
 
 const GameOngoing = ({
-  id, p1Name, numberOfRounds, playerName, errorName, sentResponse, submitError,
+  game, playerName, errorName, sentResponse, submitError,
   playedRounds, errorRounds, saving, saveError, updateName, updatePlayedRounds
 }) => {
   const submitResponse = (event) => {
     event.preventDefault();
 
     const nameHasError = isErrorName(playerName);
-    const roundsHasError = isErrorRounds(playedRounds, numberOfRounds);
+    const roundsHasError = isErrorRounds(playedRounds, game.rounds);
     if (nameHasError || roundsHasError) {
       submitError(nameHasError, roundsHasError);
     } else {
-      sentResponse(id, { playerName, playedRounds });
+      sentResponse(game._id, { playerName, playedRounds });
     }
   };
 
   return (
     <section className="section full-column">
-      <h1 className="subtitle white">{`${p1Name} created this ${numberOfRounds} round${addS(numberOfRounds)} game of rock-paper-scissors.`}</h1>
-      <div>{`Make your choice${addS(numberOfRounds)} and see who wins!`}</div>
+      <h1 className="subtitle white">{`${game.p1_name} created this ${game.rounds} round${addS(game.rounds)} game of rock-paper-scissors.`}</h1>
+      <div>{`Make your choice${addS(game.rounds)} and see who wins!`}</div>
       <form className="form" onSubmit={submitResponse}>
         <div className="field has-addons" style={{ justifyContent: 'center' }}>
           <div className="control">
             <NameInput name={playerName} error={errorName} updateName={updateName} />
             <RoundsRadio
-              numberOfRounds={numberOfRounds}
+              numberOfRounds={game.rounds}
               playedRounds={playedRounds}
               updatePlayedRounds={updatePlayedRounds}
               errorRounds={errorRounds}
@@ -50,9 +53,7 @@ const GameOngoing = ({
 };
 
 GameOngoing.propTypes = {
-  p1Name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  numberOfRounds: PropTypes.number.isRequired,
+  game: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   playerName: PropTypes.string.isRequired,
   errorName: PropTypes.bool.isRequired,
   playedRounds: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -65,4 +66,23 @@ GameOngoing.propTypes = {
   submitError: PropTypes.func.isRequired
 };
 
-export default GameOngoing;
+const mapStateToProps = (state) => ({
+  game: state.game.game,
+  isLoading: state.game.loading,
+  error: state.game.error,
+  playerName: state.game.playerName,
+  playedRounds: state.game.playedRounds,
+  errorName: state.game.errorName,
+  errorRounds: state.game.errorRounds,
+  saving: state.game.saving,
+  saveError: state.game.saveError,
+  playerScores: state.game.playerScores,
+  cardsTurned: state.game.cardsTurned,
+  playing: state.game.playing
+});
+
+const mapDispatchToProps = {
+  ...actionsGame
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GameOngoing));

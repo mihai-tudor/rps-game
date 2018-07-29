@@ -2,8 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchGame, updateName, updatePlayedRounds, sentResponse, submitError, replayGame } from '../actions/game';
-import DisplayGame from '../components/DisplayGame';
+import { fetchGame } from '../actions/game';
+import GameEnded from '../components/GameEnded';
+import GameOngoing from '../components/GameOngoing';
+
+const displayGame = (game, isLoading, error) => {
+  if (error) {
+    return <div>{error}</div>
+  }
+  if (isLoading) {
+    return <div>Loading games...</div>
+  }
+  if (game.ended) {
+    return (
+      <GameEnded />
+    );
+  }
+  return (
+    <GameOngoing />
+  );
+};
 
 class Game extends Component {
   componentDidMount() {
@@ -12,32 +30,13 @@ class Game extends Component {
 
   render() {
     const {
-      game, isLoading, error, playerName, errorName, playedRounds, errorRounds,
-      saving, saveError, playing, cardsTurned, playerScores
+      game, isLoading, error
     } = this.props;
 
     return (
       <div>
         <h2 className="subtitle white">Game</h2>
-        <DisplayGame
-          game={game}
-          isLoading={isLoading}
-          error={error}
-          playerName={playerName}
-          errorName={errorName}
-          playedRounds={playedRounds}
-          updateName={this.props.updateName}
-          updatePlayedRounds={this.props.updatePlayedRounds}
-          errorRounds={errorRounds}
-          saving={saving}
-          saveError={saveError}
-          sentResponse={this.props.sentResponse}
-          submitError={this.props.submitError}
-          playing={playing}
-          cardsTurned={cardsTurned}
-          playerScores={playerScores}
-          replayGame={this.props.replayGame}
-        />
+        {displayGame(game, isLoading, error)}
       </div>
     )
   }
@@ -48,45 +47,17 @@ Game.propTypes = {
   fetchGame: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
-  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  playerName: PropTypes.string.isRequired,
-  errorName: PropTypes.bool.isRequired,
-  playedRounds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  updateName: PropTypes.func.isRequired,
-  updatePlayedRounds: PropTypes.func.isRequired,
-  errorRounds: PropTypes.bool.isRequired,
-  saving: PropTypes.bool.isRequired,
-  saveError: PropTypes.bool.isRequired,
-  sentResponse: PropTypes.func.isRequired,
-  submitError: PropTypes.func.isRequired,
-  cardsTurned: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.bool)).isRequired,
-  playerScores: PropTypes.objectOf(PropTypes.number).isRequired,
-  playing: PropTypes.bool.isRequired,
-  replayGame: PropTypes.func.isRequired
+  match: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = (state) => ({
   game: state.game.game,
   isLoading: state.game.loading,
-  error: state.game.error,
-  playerName: state.game.playerName,
-  playedRounds: state.game.playedRounds,
-  errorName: state.game.errorName,
-  errorRounds: state.game.errorRounds,
-  saving: state.game.saving,
-  saveError: state.game.saveError,
-  playerScores: state.game.playerScores,
-  cardsTurned: state.game.cardsTurned,
-  playing: state.game.playing
+  error: state.game.error
 });
 
 const mapDispatchToProps = {
-  fetchGame,
-  sentResponse,
-  updateName,
-  updatePlayedRounds,
-  submitError,
-  replayGame
+  fetchGame
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Game));
