@@ -6,7 +6,7 @@ import Card from './Card';
 import { generateKey } from '../common/utils';
 import * as actionsGame from '../actions/game';
 
-const displayCards = (roundsPlayed, playerWins, cardsTurned, playing) => {
+const displayCards = (roundsPlayed, playerWins, cardsTurned, cardsToBeTurned, playing) => {
   const cards = [];
   roundsPlayed.forEach(
     (played, key) => {
@@ -16,6 +16,7 @@ const displayCards = (roundsPlayed, playerWins, cardsTurned, playing) => {
           cardNumber={played}
           won={playerWins[key]}
           turnCard={cardsTurned[key]}
+          toBeTurned={cardsToBeTurned[key]}
           playing={playing}
         />
       );
@@ -25,26 +26,34 @@ const displayCards = (roundsPlayed, playerWins, cardsTurned, playing) => {
 };
 
 const GameEnded = ({
-  game, cardsTurned, playerScores, playing, replayGame
-}) => (
-  <div>
-    <div>{game.p1_name} vs {game.p2_name}</div>
-    <div className="columns is-mobile is-centered">
-      <div className="column is-4-mobile is-3-tablet is-2-desktop has-text-centered">
-        {displayCards(game.p1_rounds, game.p1_rounds_won, cardsTurned.p1, playing)}
+  game, cardsTurned, playerScores, playing, replayGame, cardsToBeTurned
+}) => {
+  const submitReplay = (event) => {
+    event.preventDefault();
+    replayGame(cardsTurned);
+  };
+
+  return (
+    <div>
+      <div>{game.p1_name} vs {game.p2_name}</div>
+      <div className="columns is-mobile is-centered">
+        <div className="column is-4-mobile is-3-tablet is-2-desktop has-text-centered">
+          {displayCards(game.p1_rounds, game.p1_rounds_won, cardsTurned, cardsToBeTurned, playing)}
+        </div>
+        <div className="column is-4-mobile is-3-tablet is-2-desktop has-text-centered">
+          {displayCards(game.p2_rounds, game.p2_rounds_won, cardsTurned, cardsToBeTurned, playing)}
+        </div>
       </div>
-      <div className="column is-4-mobile is-3-tablet is-2-desktop has-text-centered">
-        {displayCards(game.p2_rounds, game.p2_rounds_won, cardsTurned.p2, playing)}
-      </div>
+      <div>{playerScores.p1} - {playerScores.p2}</div>
+      <button onClick={submitReplay}>{playing ? 'playing...' : 'Replay'}</button>
     </div>
-    <div>{playerScores.p1} - {playerScores.p2}</div>
-    <button onClick={replayGame}>{playing ? 'playing...' : 'Replay'}</button>
-  </div>
-);
+  );
+};
 
 GameEnded.propTypes = {
   game: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  cardsTurned: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.bool)).isRequired,
+  cardsTurned: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  cardsToBeTurned: PropTypes.arrayOf(PropTypes.bool).isRequired,
   playerScores: PropTypes.objectOf(PropTypes.number).isRequired,
   playing: PropTypes.bool.isRequired,
   replayGame: PropTypes.func.isRequired
@@ -54,6 +63,7 @@ const mapStateToProps = (state) => ({
   game: state.game.game,
   playerScores: state.game.playerScores,
   cardsTurned: state.game.cardsTurned,
+  cardsToBeTurned: state.game.cardsToBeTurned,
   playing: state.game.playing
 });
 

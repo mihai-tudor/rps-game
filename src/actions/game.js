@@ -10,6 +10,7 @@ export const RESPONSE_UPDATE_PLAYED_ROUNDS = 'RESPONSE_UPDATE_PLAYED_ROUNDS';
 export const REPLAY_GAME = 'REPLAY_GAME';
 export const REPLAY_GAME_PLAYING = 'REPLAY_GAME_PLAYING';
 export const REPLAY_GAME_STOP = 'REPLAY_GAME_STOP';
+export const REPLAY_GAME_PLAYING_PAUSE = 'REPLAY_GAME_PLAYING_PAUSE';
 
 export function loadedGame(game) {
   return { type: LOADED_GAME, game }
@@ -55,12 +56,16 @@ export function updatePlayedRounds(newPlayedRound) {
   return { type: RESPONSE_UPDATE_PLAYED_ROUNDS, newPlayedRound }
 }
 
-export function replayGame() {
-  return { type: REPLAY_GAME }
+export function replayGame(cardsTurned) {
+  return { type: REPLAY_GAME, cardsTurned }
 }
 
-export function replayingGame() {
-  return { type: REPLAY_GAME_PLAYING }
+export function replayingGame(roundIndex) {
+  return { type: REPLAY_GAME_PLAYING, roundIndex }
+}
+
+export function replayingGamePause(cardsTurned) {
+  return { type: REPLAY_GAME_PLAYING_PAUSE, cardsTurned }
 }
 
 export function replayingGameEnded() {

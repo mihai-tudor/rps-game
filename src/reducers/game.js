@@ -9,11 +9,12 @@ import {
   SENT_SUBMIT_ERROR,
   REPLAY_GAME,
   REPLAY_GAME_STOP,
-  REPLAY_GAME_PLAYING
+  REPLAY_GAME_PLAYING,
+  REPLAY_GAME_PLAYING_PAUSE
 } from '../actions/game';
 
 import { isErrorName } from '../common/formValidation';
-import { generateDefaultCardsTurned, getPlayerNumberOfVictories } from '../common/utils';
+import { getPlayerNumberOfVictories } from '../common/utils';
 
 export const GAME_DEFAULT_STATE = {
   game: {},
@@ -26,10 +27,8 @@ export const GAME_DEFAULT_STATE = {
   saving: false,
   saveError: false,
   playing: false,
-  cardsTurned: {
-    p1: [],
-    p2: []
-  },
+  cardsTurned: [],
+  cardsToBeTurned: [],
   playerScores: {
     p1: 0,
     p2: 0
@@ -39,9 +38,10 @@ export const GAME_DEFAULT_STATE = {
 export default function games(state = GAME_DEFAULT_STATE, action) {
   switch (action.type) {
     case LOADED_GAME: {
-      const cardsTurned = generateDefaultCardsTurned(action.game.rounds);
+      const cardsTurned = new Array(action.game.rounds).fill(false);
+      const cardsToBeTurned = new Array(action.game.rounds).fill(false);
       return {
-        ...state, game: action.game, loading: false, cardsTurned
+        ...state, game: action.game, loading: false, cardsTurned, cardsToBeTurned
       };
     }
 
@@ -90,22 +90,23 @@ export default function games(state = GAME_DEFAULT_STATE, action) {
         p1: getPlayerNumberOfVictories(state.game.p1_rounds_won),
         p2: getPlayerNumberOfVictories(state.game.p2_rounds_won)
       };
-      const cardsTurned = {
-        p1: state.cardsTurned.p1.fill(false),
-        p2: state.cardsTurned.p2.fill(false)
-      };
       return {
-        ...state, cardsTurned, playerScores, playing: true
+        ...state, playerScores, playing: true
       };
     }
 
     case REPLAY_GAME_PLAYING: {
-      const cardsTurned = {
-        p1: state.cardsTurned.p1.fill(true),
-        p2: state.cardsTurned.p2.fill(true)
-      };
+      const { cardsToBeTurned } = state;
+      cardsToBeTurned[action.roundIndex] = true;
       return {
-        ...state, cardsTurned
+        ...state, cardsToBeTurned
+      };
+    }
+
+    case REPLAY_GAME_PLAYING_PAUSE: {
+      const cardsToBeTurned = new Array(state.game.rounds).fill(false);
+      return {
+        ...state, cardsTurned: action.cardsTurned, playing: false, cardsToBeTurned
       };
     }
 

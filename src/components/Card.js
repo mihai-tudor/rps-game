@@ -50,7 +50,7 @@ class Card extends Component {
   }
 
   componentDidMount() {
-    if (this.props.turnCard && this.props.playing) {
+    if (this.props.toBeTurned && this.props.playing) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           this.setState({
@@ -84,6 +84,7 @@ Card.propTypes = {
   cardNumber: PropTypes.number.isRequired,
   won: PropTypes.bool,
   turnCard: PropTypes.bool,
+  toBeTurned: PropTypes.bool.isRequired,
   playing: PropTypes.bool.isRequired
 };
 

@@ -1,10 +1,11 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import * as log from 'loglevel';
 import { FETCH_GAMES, loadedGames, gamesFailure } from '../actions/games';
 import {
   FETCH_GAME, SENT_RESPONSE, REPLAY_GAME,
-  loadedGame, gameFailure, responseSuccess, responseFailure, replayGame, replayingGameEnded, replayingGame
+  loadedGame, gameFailure, responseSuccess, responseFailure,
+  replayGame, replayingGameEnded, replayingGame, replayingGamePause
 } from '../actions/game';
 import { CREATE_NEW_GAME, addGameSuccess, addGameFailure } from '../actions/newGame';
 import { getDomain } from '../common/utils';
@@ -78,10 +79,18 @@ function* saveResponse(action) {
   }
 }
 
-function* cardsTurning() {
-  yield put(replayingGame());
-  yield call(delay, 600);
-  yield put(replayingGameEnded());
+function* cardsTurning(action) {
+  const { cardsTurned } = action;
+  const roundToTurn = yield cardsTurned.findIndex((isTurned) => isTurned === false);
+  if (roundToTurn !== -1) {
+    cardsTurned[roundToTurn] = true;
+    yield put(replayingGame(roundToTurn));
+    yield call(delay, 600);
+    yield put(replayingGamePause(cardsTurned));
+    // yield call(cardsTurning, action);
+  } else {
+    yield put(replayingGameEnded());
+  }
 }
 
 function* rootSaga() {
@@ -89,7 +98,7 @@ function* rootSaga() {
   yield takeLatest(FETCH_GAME, getGame);
   yield takeLatest(CREATE_NEW_GAME, saveGame);
   yield takeLatest(SENT_RESPONSE, saveResponse);
-  yield takeLatest(REPLAY_GAME, cardsTurning);
+  yield takeEvery(REPLAY_GAME, cardsTurning);
 }
 
 export default rootSaga;
