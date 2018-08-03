@@ -5,10 +5,11 @@
   "main": "index.js",
   "homepage": "/",
   "scripts": {
-    "start": "yarn && yarn build && NODE_ENV=production node index",
+    "start": "yarn && NODE_ENV=production node index",
     "start:prod": "cross-env NODE_ENV=production node index",
     "start:api": "cross-env NODE_ENV=development nodemon index",
     "start:app": "react-scripts start",
+    "postinstall": "yarn build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
