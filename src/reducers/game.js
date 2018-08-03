@@ -105,7 +105,7 @@ export default function games(state = GAME_DEFAULT_STATE, action) {
         p2: state.cardsTurned.p2.fill(true)
       };
       return {
-        ...state, cardsTurned
+        ...state, cardsTurned, playing: true
       };
     }
 

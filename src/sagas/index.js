@@ -4,7 +4,7 @@ import * as log from 'loglevel';
 import { FETCH_GAMES, loadedGames, gamesFailure } from '../actions/games';
 import {
   FETCH_GAME, SENT_RESPONSE, REPLAY_GAME,
-  loadedGame, gameFailure, responseSuccess, responseFailure, replayGame, replayingGameEnded, replayingGame
+  loadedGame, gameFailure, responseSuccess, responseFailure, replayingGameEnded, replayingGame
 } from '../actions/game';
 import { CREATE_NEW_GAME, addGameSuccess, addGameFailure } from '../actions/newGame';
 import { getDomain } from '../common/utils';
@@ -71,7 +71,6 @@ function* saveResponse(action) {
     const res = yield call(fetch, `${getDomain()}/v1/rps-games/${action.gameId}`, options);
     const game = yield res.json();
     yield put(responseSuccess(game));
-    yield put(replayGame());
   } catch (e) {
     log.error(`Failed to send response! ${e.message}`);
     yield put(responseFailure());

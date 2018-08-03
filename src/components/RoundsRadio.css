@@ -1,0 +1,13 @@
+label > input{
+    visibility: hidden;
+    position: absolute;
+}
+label > input + img{
+    cursor: pointer;
+    padding: 10px;
+    opacity: 0.6;
+}
+label > input:checked + img{
+    padding: 2px;
+    opacity: 1;
+}
