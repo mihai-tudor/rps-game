@@ -37,8 +37,7 @@ class NewGame extends Component {
     };
 
     return (
-      <section className="section full-column">
-        <h1 className="title white">Create new game</h1>
+      <section className="section">
         <form className="form" onSubmit={submitNewGame}>
           <div className="field has-addons" style={{ justifyContent: 'center' }}>
             <div className="control">
@@ -55,7 +54,7 @@ class NewGame extends Component {
                 errorRounds={errorRounds}
               />
               <div className="field is-grouped is-grouped-centered">
-                <button className={saving ? 'is-loading button is-primary' : 'button is-primary'}>
+                <button className={saving ? 'is-loading button is-info' : 'button is-info'}>
                   {saving ? 'Creating new game...' : 'Create new game'}
                 </button>
               </div>

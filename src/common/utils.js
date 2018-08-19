@@ -1,12 +1,25 @@
 export const generateKey = (pre) => `${pre}_${new Date().getTime()}`;
+
 export const getDomain = () => window.location.origin;
+
 export const addS = (number) => number !== 1 ? 's' : '';
+
 export const printWinner = (p1, p2, winner) => {
   switch (winner) {
     case 1: return `${p1} won`;
     case 2: return `${p2} won`;
     default: return 'draw'
   }
+};
+
+export const winLoseClass = (player, winner) => {
+  if (winner === 0) {
+    return 'has-text-grey';
+  }
+  if (winner === player) {
+    return 'has-text-success';
+  }
+  return 'has-text-danger';
 };
 
 export const generateDefaultCardsTurned = (rounds) => {

@@ -1,16 +1,12 @@
 import React from 'react';
-import './Homepage.css';
-import GamesList from '../containers/GamesList';
-import Header from '../components/Header';
 import NewGame from '../containers/NewGame';
+import Hero from '../components/Hero';
 
 const Homepage = () => (
-  <div className="App">
-    <Header />
+  <React.Fragment>
+    <Hero h1="Create new game" h2="Create a rock-paper-scissors game and send it to a friend" />
     <NewGame />
-    <GamesList />
-  </div>
+  </React.Fragment>
 );
 
 export default Homepage;
-

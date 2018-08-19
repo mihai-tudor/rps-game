@@ -6,11 +6,13 @@ import createSagaMiddleware from 'redux-saga';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import rootReducer, { DEFAULT_STATE } from './reducers';
 import rootSaga from './sagas';
-import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 import Homepage from './pages/Homepage';
 import Game from './pages/Game';
+import History from './pages/History';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,10 +26,13 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <div>
+      <React.Fragment>
+        <Header />
         <Route exact path="/" component={Homepage} />
         <Route exact path="/game/:id" component={Game} />
-      </div>
+        <Route exact path="/history" component={History} />
+        <Footer />
+      </React.Fragment>
     </Router>
   </Provider>, document.getElementById('root')
 );

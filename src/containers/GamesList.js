@@ -13,10 +13,9 @@ class GamesList extends Component {
     const { games, isLoading, error } = this.props;
 
     return (
-      <div>
-        <h2 className="subtitle white">Games</h2>
+      <section className="section">
         <GamesFeed isLoading={isLoading} error={error} games={games} />
-      </div>
+      </section>
     )
   }
 }

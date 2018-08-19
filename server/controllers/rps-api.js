@@ -3,7 +3,7 @@ import RpsGame from '../models/rps-api';
 import { getRoundsResults } from '../../src/common/utils';
 
 export const findFinishedGames = async (ctx) => {
-  ctx.body = await RpsGame.find({ ended: { $eq: true } }).sort({ updatedAt: -1 });
+  ctx.body = await RpsGame.find({ ended: { $eq: true } }).sort({ updatedAt: -1 }).limit(20);
 };
 
 export const findGame = async (ctx) => {
