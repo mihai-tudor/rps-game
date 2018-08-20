@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Card from './Card';
-import { generateKey } from '../common/utils';
+import { generateKey, winLoseClass } from '../common/utils';
 import * as actionsGame from '../actions/game';
 
 const displayCards = (roundsPlayed, playerWins, cardsTurned, playing) => {
@@ -35,18 +35,41 @@ class GameEnded extends Component {
     } = this.props;
 
     return (
-      <div>
-        <div>{game.p1_name} vs {game.p2_name}</div>
-        <div className="columns is-mobile is-centered">
-          <div className="column is-4-mobile is-3-tablet is-2-desktop has-text-centered">
-            {displayCards(game.p1_rounds, game.p1_rounds_won, cardsTurned.p1, playing)}
+      <React.Fragment>
+        <h1 className="is-size-3">Game results</h1>
+        <div className="columns is-gapless is-centered is-vcentered is-mobile">
+          <div className="column is-4-mobile is-3-tablet is-2-desktop is-2-fullhd has-text-right">
+            <p className="is-size-4">{game.p1_name}</p>
           </div>
-          <div className="column is-4-mobile is-3-tablet is-2-desktop has-text-centered">
-            {displayCards(game.p2_rounds, game.p2_rounds_won, cardsTurned.p2, playing)}
+          <div className="column is-4-mobile is-3-tablet is-2-desktop is-1-fullhd has-text-centered">
+            <p className="is-size-1 has-text-info">VS</p>
+          </div>
+          <div className="column is-4-mobile is-3-tablet is-2-desktop is-2-fullhd">
+            <p className="is-size-4">{game.p2_name}</p>
           </div>
         </div>
-        <div>{playing ? '0 - 0' : `${playerScores.p1} - ${playerScores.p2}`}</div>
-      </div>
+        <div className="columns is-gapless is-centered is-vcentered is-mobile">
+          <div className="column is-4-mobile is-3-tablet is-2-desktop is-2-fullhd has-text-right">
+            <div className="tile is-vertical">
+              {displayCards(game.p1_rounds, game.p1_rounds_won, cardsTurned.p1, playing)}
+            </div>
+          </div>
+          <div className="column is-4-mobile is-3-tablet is-2-desktop is-1-fullhd has-text-centered">
+            {playing ?
+              <p className="is-size-1 has-text-grey">0 - 0</p>
+            :
+              <p className="is-size-1">
+                <span className={`${winLoseClass(1, game.winner)}`}>{playerScores.p1}</span> - <span className={`${winLoseClass(2, game.winner)}`}>{playerScores.p2}</span>
+              </p>
+            }
+          </div>
+          <div className="column is-4-mobile is-3-tablet is-2-desktop is-2-fullhd">
+            <div className="tile is-vertical">
+              {displayCards(game.p2_rounds, game.p2_rounds_won, cardsTurned.p2, playing)}
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

@@ -26,9 +26,17 @@ const getCardImageSrc = (cardNumber) => {
   }
 };
 
+const getCardName = (cardNumber) => {
+  switch (cardNumber) {
+    case 0: return 'rock';
+    case 1: return 'paper';
+    default: return 'scissors';
+  }
+};
+
 const CardImage = ({ cardNumber, won }) => (
   <div className={getRoundClass(won)}>
-    <img src={getCardImageSrc(cardNumber)} width="155" height="155" alt="paper" />
+    <img src={getCardImageSrc(cardNumber)} width="155" height="155" alt={getCardName(cardNumber)} />
   </div>
 );
 
@@ -71,7 +79,7 @@ class Card extends Component {
       <div className="tile is-child has-text-centered" role="presentation">
         <FlipCard flipped={this.state.isFlipped} type="horizontal">
           <div className="box has-background-light">
-            <img src={cardBack} width="155" height="155" alt="paper" />
+            <img src={cardBack} width="155" height="155" alt="hidden card" />
           </div>
           <CardImage cardNumber={cardNumber} won={won} />
         </FlipCard>

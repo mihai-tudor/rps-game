@@ -34,8 +34,7 @@ class Game extends Component {
     } = this.props;
 
     return (
-      <div>
-        <h2 className="subtitle white">Game</h2>
+      <div className="section">
         {displayGame(game, isLoading, error)}
       </div>
     )
