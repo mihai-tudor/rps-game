@@ -11,7 +11,7 @@ const displayGame = (game, isLoading, error) => {
     return <div>{error}</div>
   }
   if (isLoading) {
-    return <div>Loading games...</div>
+    return <div>Loading game...</div>
   }
   if (game.ended) {
     return (

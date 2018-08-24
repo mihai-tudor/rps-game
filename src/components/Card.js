@@ -10,12 +10,12 @@ import cardBack from '../images/card-back.svg';
 
 const getRoundClass = (wonState) => {
   if (wonState === null) {
-    return 'box has-background-warning';
+    return 'box is-paddingless has-background-warning';
   }
   if (wonState) {
-    return 'box has-background-success';
+    return 'box is-paddingless has-background-success';
   }
-  return 'box has-background-danger';
+  return 'box is-paddingless has-background-danger';
 };
 
 const getCardImageSrc = (cardNumber) => {
@@ -36,7 +36,7 @@ const getCardName = (cardNumber) => {
 
 const CardImage = ({ cardNumber, won }) => (
   <div className={getRoundClass(won)}>
-    <img src={getCardImageSrc(cardNumber)} width="155" height="155" alt={getCardName(cardNumber)} />
+    <img src={getCardImageSrc(cardNumber)} alt={getCardName(cardNumber)} />
   </div>
 );
 

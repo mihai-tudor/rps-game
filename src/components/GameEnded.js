@@ -42,7 +42,7 @@ class GameEnded extends Component {
             <p className="is-size-4">{game.p1_name}</p>
           </div>
           <div className="column is-4-mobile is-3-tablet is-2-desktop is-1-fullhd has-text-centered">
-            <p className="is-size-1 has-text-info">VS</p>
+            <p className="is-size-2 has-text-info">VS</p>
           </div>
           <div className="column is-4-mobile is-3-tablet is-2-desktop is-2-fullhd">
             <p className="is-size-4">{game.p2_name}</p>
@@ -56,9 +56,9 @@ class GameEnded extends Component {
           </div>
           <div className="column is-4-mobile is-3-tablet is-2-desktop is-1-fullhd has-text-centered">
             {playing ?
-              <p className="is-size-1 has-text-grey">0 - 0</p>
+              <p className="is-size-2 has-text-grey">0 - 0</p>
             :
-              <p className="is-size-1">
+              <p className="is-size-2">
                 <span className={`${winLoseClass(1, game.winner)}`}>{playerScores.p1}</span> - <span className={`${winLoseClass(2, game.winner)}`}>{playerScores.p2}</span>
               </p>
             }
